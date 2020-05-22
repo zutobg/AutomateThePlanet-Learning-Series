@@ -1,5 +1,5 @@
 ﻿// <copyright file="elementfinderservice.cs" company="Automate The Planet Ltd.">
-// Copyright 2016 Automate The Planet Ltd.
+// Copyright 2018 Automate The Planet Ltd.
 // Licensed under the Apache License, Version 2.0 (the "License");
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,26 +13,29 @@
 // <site>http://automatetheplanet.com/</site>
 using System;
 using HybridTestFramework.UITests.Selenium.Controls;
-using Microsoft.Practices.Unity;
+using Unity;
 using OpenQA.Selenium;
 using System.Collections.Generic;
-using HybridTestFramework.UITests.Core;
+using HybridTestFramework.UITests.Selenium.Events;
+using Unity.Resolution;
 
 namespace HybridTestFramework.UITests.Selenium.Engine
 {
     public class ElementFinderService
     {
+        public static event EventHandler<NativeElementActionEventArgs> ReturningWrappedElement;
         private readonly IUnityContainer _container;
 
         public ElementFinderService(IUnityContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         public TElement Find<TElement>(ISearchContext searchContext, Core.By by)
             where TElement : class, Core.Controls.IElement
         {
             var element = searchContext.FindElement(by.ToSeleniumBy());
+            ReturningWrappedElement?.Invoke(this, new NativeElementActionEventArgs(element));
             var result = ResolveElement<TElement>(searchContext, element);
 
             return result;

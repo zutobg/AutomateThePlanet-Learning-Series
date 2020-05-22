@@ -1,5 +1,5 @@
 ﻿// <copyright file="seleniumdriver.cs" company="Automate The Planet Ltd.">
-// Copyright 2016 Automate The Planet Ltd.
+// Copyright 2018 Automate The Planet Ltd.
 // Licensed under the Apache License, Version 2.0 (the "License");
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,11 +12,13 @@
 // <author>Anton Angelov</author>
 // <site>http://automatetheplanet.com/</site>
 using HybridTestFramework.UITests.Core;
-using HybridTestFramework.UITests.Core.Enums;
-using Microsoft.Practices.Unity;
+using Unity;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using System;
+using System.IO;
+using System.Reflection;
+using OpenQA.Selenium.Chrome;
 
 namespace HybridTestFramework.UITests.Selenium.Engine
 {
@@ -29,8 +31,8 @@ namespace HybridTestFramework.UITests.Selenium.Engine
 
         public SeleniumDriver(IUnityContainer container, BrowserSettings browserSettings)
         {
-            this._container = container;
-            this._browserSettings = browserSettings;
+            _container = container;
+            _browserSettings = browserSettings;
             ResolveBrowser(browserSettings);
             _elementFinderService = new ElementFinderService(container);
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(browserSettings.ElementsWaitTimeout);
@@ -43,6 +45,7 @@ namespace HybridTestFramework.UITests.Selenium.Engine
                 case Browsers.NotSet:
                     break;
                 case Browsers.Chrome:
+                    _driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                     break;
                 case Browsers.Firefox:
                     _driver = new FirefoxDriver();

@@ -1,5 +1,5 @@
 ﻿// <copyright file="KendoGrid.cs" company="Automate The Planet Ltd.">
-// Copyright 2016 Automate The Planet Ltd.
+// Copyright 2018 Automate The Planet Ltd.
 // Licensed under the Apache License, Version 2.0 (the "License");
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -15,7 +15,7 @@
 using HybridTestFramework.UITests.Core.Controls;
 using HybridTestFramework.UITests.Core.Data;
 using HybridTestFramework.UITests.Core.Enums;
-using Microsoft.Practices.Unity;
+using Unity;
 using Newtonsoft.Json;
 using OpenQA.Selenium;
 using System;
@@ -35,7 +35,7 @@ namespace HybridTestFramework.UITests.Selenium.Controls
             IUnityContainer container) : base(driver, webElement, container)
         {
             _gridId = webElement.GetAttribute("id");
-            this._driver = (IJavaScriptExecutor)driver;
+            _driver = (IJavaScriptExecutor)driver;
         }
 
         public void RemoveFilters()

@@ -1,5 +1,5 @@
 ﻿// <copyright file="element.cs" company="Automate The Planet Ltd.">
-// Copyright 2016 Automate The Planet Ltd.
+// Copyright 2018 Automate The Planet Ltd.
 // Licensed under the Apache License, Version 2.0 (the "License");
 // You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,7 +13,7 @@
 // <site>http://automatetheplanet.com/</site>
 using HybridTestFramework.UITests.Core.Controls;
 using HybridTestFramework.UITests.Selenium.Engine;
-using Microsoft.Practices.Unity;
+using Unity;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System;
@@ -29,8 +29,8 @@ namespace HybridTestFramework.UITests.Selenium.Controls
 
         public Element(IWebDriver driver, IWebElement webElement, IUnityContainer container)
         {
-            this.Driver = driver;
-            this.WebElement = webElement;
+            Driver = driver;
+            WebElement = webElement;
             ElementFinderService = new ElementFinderService(container);
         }
 
@@ -60,37 +60,13 @@ namespace HybridTestFramework.UITests.Selenium.Controls
             builder.MoveToElement(WebElement).Click().Build().Perform();
         }
 
-        public bool IsVisible
-        {
-            get
-            {
-                return WebElement.Displayed;
-            }
-        }
+        public bool IsVisible => WebElement.Displayed;
 
-        public int Width
-        {
-            get
-            {
-                return WebElement.Size.Width;
-            }
-        }
+        public int Width => WebElement.Size.Width;
 
-        public string CssClass
-        {
-            get
-            {
-                return WebElement.GetAttribute("className");
-            }
-        }
+        public string CssClass => WebElement.GetAttribute("className");
 
-        public string Content
-        {
-            get
-            {
-                return WebElement.Text;
-            }
-        }
+        public string Content => WebElement.Text;
 
         public TElement Find<TElement>(Core.By by) where TElement : class, IElement
         {
